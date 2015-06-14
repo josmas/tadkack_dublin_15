@@ -1,79 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
 
-<html>
-  <head>
-    <script src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
-    <script src="http://s.phono.com/releases/1.1/jquery.phono.js"></script>
-  </head>
-  <body>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+  <meta name="author" content="Adriá, Jorge, Jose">
 
-    <div id="sip"></div>
-    <div id="status">Initializing...</div>
-    <input id="btnanswer" type="button" value="Answer" disabled />
-    <input id="btnhangup" type="button" value="Hangup" disabled />
-    <script>
+  <title>TADHackaton Dublin 2015</title>
 
-	document.addEventListener('DOMContentLoaded', function () {
-	  if (Notification.permission !== "granted")
-	    Notification.requestPermission();
-	});
+  <link href="cover.css" rel="stylesheet">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
-        var mysip = ""
-
-	$.phono({
-	  apiKey: "",
-	  audio: {type:"flash"},
-	  onReady: function(event) {
-	  	mysip = this.sessionId;
-                $('#sip').text("sip:"+this.sessionId);
-	  	$('#status').text("Wait for call");
-                var url = "/register?sip="+encodeURIComponent(this.sessionId)
-                $.get( "/register?sip="+url, function( data ) {
-                   $('#status').text("Registered! "+data);
-                });                
-	  },
-	  phone: {
-	    onIncomingCall: function(event) {
-	      var call = event.call;
-	  	  $('#status').text("incoming call!");
-	      $('#btnanswer').removeAttr('disabled'); 	 
-	      $('#btnhangup').removeAttr('disabled'); 	 
-
-	    var notification = new Notification('Notification title', {
-	      icon: 'https://cdn0.iconfinder.com/data/icons/basic-ui-elements-round/700/08_phone-512.png',
-	      body: "Incomming call! "+call.id+"->"+mysip,
-	    });
-
-	    notification.onclick = function () {
- 			$('#btnanswer').attr("disabled", true);
- 		    call.answer();
-	    };
-
-		  $( "#btnanswer" ).click(function() {
- 			$('#btnanswer').attr("disabled", true);
- 		    call.answer();
-		  });
-
-		  $( "#btnhangup" ).click(function() {
-		    call.hangup();
-	 			$('#btnanswer').attr("disabled", true);
-	 			$('#btnhangup').attr("disabled", true);
-			  	$('#status').text("Wait for call");
-		  });
-
-	      call.bind({
-	          onHangup: function(event) {
-	 			$('#btnanswer').attr("disabled", true);
-	 			$('#btnhangup').attr("disabled", true);
-			  	$('#status').text("Wait for call");
-	               console.log("Call hung up");
-	          }});
-	    }
-	  }
-	});
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
 
 
 
-    </script>
+  <script src="http://code.jquery.com/jquery-1.4.2.min.js"></script>
+  <script src="http://s.phono.com/releases/1.1/jquery.phono.js"></script>
+  <script src="http://cdn.rawgit.com/josmas/tadkack_dublin_15/master/server/main.js"></script>
 
-  </body>
+  <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body>
+
+
+  <div class="site-wrapper">
+
+    <div class="site-wrapper-inner">
+
+      <div class="cover-container">
+
+
+        <div class="inner cover">
+          <h1 class="cover-heading" id="status"><img src="http://cdn.rawgit.com/josmas/tadkack_dublin_15/master/server/loading.gif" />&nbsp;Initializing...</h1>
+          <p class="lead">
+            <a class="btn btn-lg btn-success hidden" id="btnanswer" type="button">
+              <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+            </a>
+            <a class="btn btn-lg btn-danger hidden" id="btnhangup" type="button">
+              <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
+            </a>
+          </p>
+        </div>
+
+        <div class="mastfoot">
+          <div class="inner">
+            <p>&copy; TADHackaton Dublin 2015</p>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  </div>
+  <!-- /container -->
+
+</body>
+
 </html>
