@@ -7,7 +7,7 @@ $(function() {
   $.phono({
     apiKey: "fbf2e6a4279b8b8d242057c17378d8af",
     audio: {
-      type: "flash"
+      type: "auto"
     },
     onReady: function(event) {
       mysip = this.sessionId;
