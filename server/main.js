@@ -12,10 +12,10 @@ $(function() {
     onReady: function(event) {
       mysip = this.sessionId;
       $('#sip').text("sip:" + this.sessionId);
-      $('#status').text("Wait for call");
       var url = "/register?sip=" + encodeURIComponent(this.sessionId)
       $.get("/register?sip=" + url, function(data) {
-        $('#status').text("Registered! " + data);
+        console.log("Registered! " + data);
+        $('#status').text("Wait for call");
       });
     },
     phone: {
@@ -25,7 +25,7 @@ $(function() {
         $('#btnanswer').removeClass('hidden');
         var notification = new Notification('Notification title', {
           icon: 'https://cdn0.iconfinder.com/data/icons/basic-ui-elements-round/700/08_phone-512.png',
-          body: "Incomming call! " + call.id + "->" + mysip,
+          body: "Incomming call! " + call.id,
         });
         notification.onclick = function() {
           $('#btnanswer').addClass('hidden');
@@ -33,8 +33,8 @@ $(function() {
           call.answer();
         };
         $("#btnanswer").click(function() {
-          $('#btnanswer').addClass('hidden');
           $('#btnhangup').removeClass('hidden');
+          $('#btnanswer').addClass('hidden');
           call.answer();
         });
         $("#btnhangup").click(function() {
