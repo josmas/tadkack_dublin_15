@@ -1,0 +1,17 @@
+{
+  "name": "tadhack",
+  "version": "0.0.1",
+  "description": "a tropo app for tadhack 15 Dublin",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "ejs": "^2.3.1",
+    "express": "^4.12.4",
+    "tropo-webapi": "^1.2.0",
+    "underscore": "^1.8.3"
+  }
+}
