@@ -6,11 +6,11 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-  <meta name="author" content="Adriá, Jorge, Jose">
+  <meta name="author" content="Adria, Jorge, Jose">
 
   <title>TADHackaton Dublin 2015</title>
 
-  <link href="http://cdn.rawgit.com/josmas/tadkack_dublin_15/master/server/cover.css" rel="stylesheet">
+  <link href="cover.css" rel="stylesheet">
   <!-- Latest compiled and minified CSS -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
 
@@ -37,14 +37,19 @@ $(function() {
     audio: {
       type: audio
     },
-    onReady: function(event) {
+    onReady: function(event) { 
       mysip = this.sessionId;
       $('#sip').text("sip:" + this.sessionId);
-      var url = "/register?sip=" + encodeURIComponent(this.sessionId)
-      $.get("/register?sip=" + url, function(data) {
-        console.log("Registered! " + data);
-        $('#status').text("Wait for call");
-      });
+      $('#status').text("Wait for call");
+      function register() {
+         var url = "/api/register?sip=" + encodeURIComponent(mysip)
+         $.get(url, function(data) {
+           $('#sips').html(data+" registered operators");
+           console.log("Registered! " + data);
+         });
+         setTimeout(register,2000)
+      }
+      register();
     },
     phone: {
       onIncomingCall: function(event) {
@@ -61,9 +66,10 @@ $(function() {
           call.answer();
         };
         $("#btnanswer").click(function() {
+          notification.close();
+          call.answer();
           $('#btnhangup').removeClass('hidden');
           $('#btnanswer').addClass('hidden');
-          call.answer();
         });
         $("#btnhangup").click(function() {
           call.hangup();
@@ -73,6 +79,7 @@ $(function() {
         });
         call.bind({
           onHangup: function(event) {
+            notification.close();
             $('#btnanswer').addClass('hidden');
             $('#btnhangup').addClass('hidden');
             $('#status').text("Wait for call");
@@ -101,9 +108,10 @@ $(function() {
 
       <div class="cover-container">
 
-
+        <h1>Attached to phone: +34932201668</h1>
+        <h5 id="sips">/<h5>
         <div class="inner cover">
-          <h1 class="cover-heading" id="status"><img src="http://cdn.rawgit.com/josmas/tadkack_dublin_15/master/server/loading.gif" />&nbsp;Initializing...</h1>
+          <h1 class="cover-heading" id="status"><img src="loading.gif" />&nbsp;Initializing...</h1>
           <p class="lead">
             <a class="btn btn-lg btn-success hidden" id="btnanswer" type="button">
               <span class="glyphicon glyphicon-earphone" aria-hidden="true"></span>
